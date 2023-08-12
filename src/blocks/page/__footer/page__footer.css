@@ -1,0 +1,26 @@
+.page__footer {
+    padding-top: 67px;
+    padding-bottom: 60px;
+    padding-left: 200px;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 1279px) {
+    .page__footer {
+        padding-left: 72px;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .page__footer {
+        padding-left: 94px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .page__footer {
+        padding-top: 48px;
+        padding-bottom: 36px;
+        padding-left: 19px;
+    }
+}

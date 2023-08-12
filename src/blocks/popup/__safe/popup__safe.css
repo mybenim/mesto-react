@@ -1,0 +1,34 @@
+.popup__safe {
+  width: 358px;
+  height: 50px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  display: block;
+  color: white;
+  background-color: black;
+  border-radius: 2px;
+  border: 0;
+  cursor: pointer;
+}
+
+.popup__safe:hover {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+.popup__safe:nth-child(n) {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+}
+
+ @media screen and (max-width: 767px) {
+  .popup__safe {
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 43px auto 25px;
+  }
+}

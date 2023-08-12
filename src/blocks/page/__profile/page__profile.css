@@ -1,0 +1,16 @@
+.page__profile {
+    padding-top: calc(40 / 1280 * 100%);
+    color: white;
+}
+
+@media screen and (max-width: 767px) {
+    .page__profile {
+        padding-top: calc(42 / 320 * 100%);
+    }
+}
+
+
+
+
+
+

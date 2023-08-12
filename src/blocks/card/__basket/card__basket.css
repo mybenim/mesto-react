@@ -1,0 +1,17 @@
+.card__basket {
+  position: absolute;
+  width: 18px;
+  height: 19px;
+  top: 20px;
+  right: 20px;
+  background: url(./../../../images/basket.svg) center;
+  background-image: no-repeat;
+  background-size: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.card__basket:hover {
+    opacity: 0.6;
+    transform: scale(1.2);
+}

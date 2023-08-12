@@ -1,0 +1,7 @@
+.card__button-like {
+    width: 22px;
+    height: 19px;
+    border: 0;
+    opacity: 1;
+    background: url(./../../../images/vector_like_black.svg) center no-repeat;
+}
