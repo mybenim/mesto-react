@@ -7,17 +7,16 @@ import { useState } from "react"
 
 function App() {
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false) 
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
-  const [selectedCard, setSelectedCard ] = useState({})
-  const [isImagePopup, setIsImagePopup ] = useState(false)
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false); 
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
-    setIsImagePopup(false)
+    setSelectedCard(false);
   }
 
   function handleEditProfileClick() {
@@ -34,7 +33,6 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card)
-    setIsImagePopup(true)
   } 
 
   return (
@@ -55,7 +53,6 @@ function App() {
     <PopupWithForm 
       name="edit profile"
       title="Редактировать профиль"
-      //titleButton="Сохранить"
       isOpen = {isEditProfilePopupOpen}
       onClose = {closeAllPopups}
     >
@@ -118,7 +115,6 @@ function App() {
     <PopupWithForm 
       name="edit avatar"
       title="Обновить фото"
-      //titleButton="Сохранить"
       isOpen = {isEditAvatarPopupOpen}
       onClose = {closeAllPopups}
     >
@@ -141,7 +137,6 @@ function App() {
 
     <ImagePopup 
       card={selectedCard} 
-      isOpen={isImagePopup} 
       onClose = {closeAllPopups}
     />
 

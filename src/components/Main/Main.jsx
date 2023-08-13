@@ -12,13 +12,18 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
     useEffect(() => {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([getUserInfo, initialCards]) => {
-          setUserName(getUserInfo.name)
-          setUserDescription(getUserInfo.about)
-          setUserAvatar(getUserInfo.avatar)
+          setUserName(getUserInfo.name);
+          setUserDescription(getUserInfo.about);
+          setUserAvatar(getUserInfo.avatar);
+           setCards(initialCards);
           
-          initialCards.forEach(data => data.myId = getUserInfo._id)
-          setCards(initialCards)
+          /* initialCards.forEach(data => data.myId = getUserInfo._id)
+          setCards(initialCards) */
+
         })
+           .catch(() => {
+                console.log("Что-то пошло не так")
+            })
     },[])
 
 
@@ -66,7 +71,6 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                 <Card 
                     card={data}
                     key={data._id}
-                    likes={data.likes}
                     name={data.name}
                     link={data.link}
                     onCardClick={onCardClick} 
