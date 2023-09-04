@@ -1,17 +1,21 @@
-export default function ImagePopup({ card, onClose }) {
+export default function ImagePopup({ card, onClose, isOpen }) {
     return (
-    <section className={`popup popup-image ${card && "popup_opened"}`}>
-        <div className="popup__container popup__container-image">
-        <figure className="popup__image">
-            <img
-                className="popup__item-img" 
-                //src={ card.link }
-                src={ card.link ? card.link : "#" }  
-                //alt={ `Изображение ${card.name}` }
-                alt={card.name ? `Изображение ${card.name}` : "#" } 
-            />
+    <section className={`popup popup-image ${isOpen && "popup_opened"}`} onClick={onClose}>
+            <div className="popup__container popup__container-image" 
+            // Запрет на закрытие клика по форме
+            onClick={(event => event.stopPropagation())}>
+
+            <figure className="popup__image">
+                <img
+                    className="popup__item-img" 
+                    //src={ card.link }
+                    src={ card.link ? card.link : "#" }  
+                    //alt={ `Изображение ${card.name}` }
+                    alt={card.name ? `Изображение ${card.name}` : "#" } 
+                />
             <figcaption className="popup__caption">{card.name}</figcaption>
-        </figure>
+            </figure>
+        
             <button
                 id="close-image"
                 type="button"

@@ -1,0 +1,9 @@
+.loading {
+    background-image: url(../../images/Loading.gif);
+    width: 120px;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    justify-self: center;
+}
