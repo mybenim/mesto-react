@@ -3,7 +3,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
 import Loading from "../Loading/Loading.jsx";
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards, isLoading }) {
+export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onDelete, cards, isLoading }) {
     
   const currentUser = useContext(CurrentUserContext)
    
@@ -53,6 +53,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                     //name={data.name}
                     //link={data.link}
                     onCardClick={onCardClick}
+                    onCardLike={onCardLike}
                     onDelete={onDelete} 
                 />
               )

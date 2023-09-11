@@ -1,0 +1,32 @@
+import { useEffect, useState } from "react";
+import api from "../../utils/api";
+
+export default function ButtonLike({ countLikes, liked, cardid }) {
+    const [isLike, setIsLike] = useState(liked)
+    const [count, setCount] = useState(countLikes)
+
+    function handleLike() {
+        if (isLike) {
+            api.deleteLike(cardid)
+            .then(updatedCard => {
+                setIsLike(false)
+                setCount(updatedCard.likes.length)
+            })
+            .catch((error) => console.error(`Ошибка при снятии лайка ${error}`))
+        } else {
+            api.addLike(cardid)
+            .then(updatedCard => {
+                setIsLike(true)
+                setCount(updatedCard.likes.length)
+            })
+            .catch((error) => console.error(`ошибка при добавлении лайка ${error}`));
+        }
+    }
+
+    return (
+    <>
+        <button className={`card__like-icon ${isLike ? "card__button-like" : ""}`} onClick={handleLike} />
+        <p className="card__like-counter">{count}</p>
+    </>
+    )
+}

@@ -3,7 +3,7 @@ import Main from "./Main/Main.jsx";
 import Footer from "./Footer/Footer.jsx";
 import PopupWithForm from "./PopupWithForm/PopupWithForm.jsx";
 import ImagePopup from "./ImagePopup/ImagePopup.jsx";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CurrentUserContext from "../context/CurrentUserContext.js";
 import api from "../utils/api.js";
 import EditProfilePopup from "./EditProfilePopup/EditProfilePopup.jsx";
@@ -28,58 +28,34 @@ function App() {
   const [deleteCardId, setdeleteCardId] = useState("");
   const [isLoading, setIsLoading] = useState(true)
 
-  // Три функции useCallback
-    // 1
-  const setAllStateClose = useCallback(() => {
+  function closeAllPopups() {
         setIsEditProfilePopupOpen(false)
         setIsAddPlacePopupOpen(false)
         setIsEditAvatarPopupOpen(false)
         setIsImagePopup(false)
         setIsDeletePopupOpen(false)
-  }, [])
-    // 2
-  const closePopupByEsc = useCallback((event) => {
-    if (event.key === "Escape") {
-      setAllStateClose()
-      document.removeEventListener("keydown", closePopupByEsc)
     }
-  }, [setAllStateClose])
-    // 3
-  const closeAllPopups = useCallback (() => {
-    setAllStateClose()
-    document.removeEventListener("keydown", closePopupByEsc)
-  }, [setAllStateClose, closePopupByEsc])
-
-  // Функция слушатель
-  function setEventListenerForDocument() {
-    document.addEventListener("keydown", closePopupByEsc)
-  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true)
-    setEventListenerForDocument()
   }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true)
-    setEventListenerForDocument()
   }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
-    setEventListenerForDocument()
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card)
+  function handleCardClick(cardId) {
+    setSelectedCard(cardId)
     setIsImagePopup(true)
-    setEventListenerForDocument()
   } 
 
-  function handleDeletePopupClick(cardId) {
-    setdeleteCardId(cardId)
+  function handleDeletePopupClick(card) {
+    setdeleteCardId(card)
     setIsDeletePopupOpen(true)
-    setEventListenerForDocument()
   }
 
   useEffect(() => {
@@ -87,13 +63,24 @@ function App() {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([getUserInfo, initialCards]) => {
             setCurrentUser(getUserInfo)
-          
+
           initialCards.forEach(data => data.myId = getUserInfo._id)
           setCards(initialCards)
           setIsLoading(false)
         })
         .catch((error) => console.error(`Что-то пошло не так ${error}`))
-   },[])
+
+          const closePopupByEsc = (event) => {
+            if (event.key === "Escape") {
+            closeAllPopups()
+        }
+      }
+      document.addEventListener("keydown", closePopupByEsc)
+
+      return () => {
+        document.removeEventListener('keydown', closePopupByEsc)
+      }
+        },[])
 
   function handleCardDeleteSubmit(event) {
     event.preventDefault()
@@ -150,7 +137,7 @@ return (
       onCardClick = {handleCardClick}
       onDelete = {handleDeletePopupClick}
       cards = {cards}
-      isLoading = {isLoading}
+      isLoading = {isLoading}  
     />
 
     <Footer />
