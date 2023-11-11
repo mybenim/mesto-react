@@ -1,3 +1,5 @@
+
+
 export default function PopupWithForm({ name, title, titleButton, children, isOpen, onClose, onSubmit, isValid=true }) {
     return (
       <section className={ `popup popup_type_${name} ${isOpen && "popup_opened"}`} onClick={onClose}>
@@ -13,7 +15,7 @@ export default function PopupWithForm({ name, title, titleButton, children, isOp
               onClick={onClose} 
             />
 
-            <h2 className={ `popup__title ${name}` }>{title}</h2>
+            <h2 className={`popup__title ${name}`}>{title}</h2>
           
             <form
               className={`popup__form popup__form-${name === "delete" && "popup_type_delete"}`}

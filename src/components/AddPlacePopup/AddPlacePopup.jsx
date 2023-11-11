@@ -2,7 +2,7 @@ import useFormValidation from "../../utils/useFormValidation";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
 
      const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation()
 
@@ -13,7 +13,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 
       function handleSubmit(event) {
         event.preventDefault()
-        onAddPlace({ name: values.name, link: values.link }, reset)
+        onAddCard({ name: values.name, link: values.link }, reset)
     }
 
     return(
