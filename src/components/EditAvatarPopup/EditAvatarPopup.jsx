@@ -2,7 +2,7 @@ import { useRef } from "react";
 import useFormValidation from "../../utils/useFormValidation";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-export default function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     const input = useRef()
     const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation()
 
@@ -13,7 +13,7 @@ function resetClose() {
 
 function handleSubmit(event) {
         event.preventDefault()
-        onUpdateAvatar({avatar: input.current.value}, reset)
+        onUpdateAvatar({ avatar: input.current.value }, reset)
     }
 
     return (

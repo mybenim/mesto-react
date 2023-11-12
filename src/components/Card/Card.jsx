@@ -1,19 +1,18 @@
-import {useContext, useState} from "react";
-import CurrentUserContext from "../../context/CurrentUserContext";
-import ButtonLike from "../ButtonLike/ButtonLike";
-import api from "../../utils/api";
+import { useContext, useState } from "react"
+import CurrentUserContext from "../../context/CurrentUserContext.js";
+import api from "../../utils/api.jsx";
 
 export default function Card({ card, onCardClick, onDelete }) {
     const currentUser = useContext(CurrentUserContext)
 
     const [isLiked, setIsLiked] = useState(card.likes.some(element => currentUser._id === element._id))
-    const [countLikes, setCountLikes] = useState(card.likes.length)
+    const [count, setCount] = useState(card.likes.length);
 
     function handleLike() {
         const apiCall = isLiked ? api.deleteLike(card._id) : api.addLike(card._id);
         apiCall.then(res => {
             setIsLiked(!isLiked);
-            setCountLikes(res.likes.length);
+            setCount(res.likes.length);
         })
         .catch(error => console.error(`Ошибка при ${isLiked ? "снятии" : "добавлении"} лайка ${error}`));
     } 
@@ -32,13 +31,11 @@ export default function Card({ card, onCardClick, onDelete }) {
 
             <div className="card__group">
                 <h2 className="card__title">{card.name}</h2>
-
-                <ButtonLike
-                    isLiked={isLiked}
-                    countLikes={countLikes}
-                    onClick={handleLike}
-                />
+                <div>
+                    <button className={`card__like-icon ${isLiked ? "card__button-like" : ""}`} onClick={handleLike} />
+                        <p className="card__like-counter">{count}</p>
+                </div>   
             </div>
         </article>
-    )
-}
+        )
+    }

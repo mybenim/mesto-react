@@ -1,0 +1,19 @@
+.header__unlogin {
+   font-weight: 400;
+   font-size: 18px;
+   line-height: 22px;
+   letter-spacing: 0em;
+   text-align: right;
+   padding: 0;
+   margin: 0;
+   text-decoration: none;
+   color: #A9A9A9;
+}
+
+/* @media screen and ( max-width: 767px) {
+  .header__unlogin {
+   margin-right: calc(30/320*100%);
+   margin-top: calc(6/320*100%);
+  }
+}
+ */
