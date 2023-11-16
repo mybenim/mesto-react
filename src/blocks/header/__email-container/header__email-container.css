@@ -1,0 +1,11 @@
+.header__email-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+    .header__email-container {
+        margin-right: 27px;
+    }
+}

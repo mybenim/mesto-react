@@ -1,14 +1,18 @@
 import Card from "../Card/Card.jsx";
 import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
+import Header from "../Header/Header.jsx";
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards }) {
+export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards, onSignOut, userEmail, loggedIn }) {
     
   const currentUser = useContext(CurrentUserContext)
 
   return (
+    <>
+    <Header loggedIn={loggedIn} userEmail={userEmail} onSignOut={onSignOut} />
+    
     <main className="main">
-  
+
       <section className="profile page__profile">
         <div className="profile__info">
           <button
@@ -57,5 +61,6 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
           </ul>
         </section>
       </main>
+      </>
     )
 }

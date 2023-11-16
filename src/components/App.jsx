@@ -5,7 +5,7 @@ import EditAvatarPopup from "./EditAvatarPopup/EditAvatarPopup.jsx";
 import AddPlacePopup from "./AddPlacePopup/AddPlacePopup.jsx";
 import InfoTooltip from "./InfoTooltip/InfoTooltip.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
-import { registration, authorization, getUserData } from "../utils/auth.js"
+import { registration, authorization, getUserInfo } from "../utils/auth.js"
 import api from "../utils/api.jsx";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Footer from "./Footer/Footer.jsx";
@@ -76,18 +76,19 @@ function App() {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userEmail, dataCards]) => {
             setCurrentUser(userEmail)
+            
             setCards(dataCards)
         })
         .catch((error) => console.error(`Ошибка при загрузке начальных данных ${error}`))
       }
-        },[loggedIn]) 
+        },[loggedIn])
 
   // GET-запрос
   useEffect(() => {
     if (localStorage.jwt) {
-      getUserData(localStorage.jwt)
+      getUserInfo(localStorage.jwt)
        .then(res => {
-        console.log(res)
+       console.log(res)
         setUserEmail(res.data.email)
         setLoggedIn(true)
         navigate("/")
@@ -97,11 +98,16 @@ function App() {
     } else {
         setLoggedIn(false)  
     }
-  }, [])
+  }, [navigate])
+
+ function onSignOut() {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+  } 
   
   function handleUpdateUser(dataUser, reset) {
       api.setUserInfo(dataUser)
-        .then(res => {
+        .then(res => {         
           setCurrentUser(res)
           closeAllPopups()
           reset()
@@ -109,8 +115,8 @@ function App() {
         .catch((error) => console.error(`Ошибка при редактировании профиля ${error}`))
    }
 
-  function handleUpdateAvatar(data, reset) {
-      api.setUserAvatar(data)
+  function handleUpdateAvatar(dataAvatar, reset) {
+      api.setUserAvatar(dataAvatar)
         .then(res => {
           setCurrentUser(res)
           closeAllPopups()
@@ -121,7 +127,7 @@ function App() {
 
   function handleAddPlaceSubmit(dataCard, reset) {
         api.addNewCard(dataCard)
-        .then(res => {
+        .then(res => {         
           setCards([res, ...cards]); 
           closeAllPopups()
           reset()
@@ -186,11 +192,12 @@ function App() {
             localStorage.setItem("loggedIn", true)
             localStorage.setItem("jwt", res.token)
             setLoggedIn(true)
+            window.scrollTo(0, 0) // Скролл вверх
             navigate("/")
       })
        .catch((error) => {
             setIsResultPopupOpen(true)
-            setIsSuccessful(true)
+            setIsSuccessful(false)
             console.error(`Ошибка при авторизации ${error}`)
         });
     }
@@ -225,6 +232,7 @@ return (
           onCardClick={handleCardClick}
           onDelete={handleDeletePopupClick}
           onClick={handleLike}
+          onSignOut={onSignOut}
           cards={cards}
           loggedIn={loggedIn}
           userEmail={userEmail}

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-export default function Header({ name, dataUser, loggedIn }) {
+export default function Header({ onSignOut, userEmail, loggedIn }) {
    const location = useLocation();
 
     return (
@@ -13,7 +13,7 @@ export default function Header({ name, dataUser, loggedIn }) {
           alt="логотип"
         />
 
-        {location.pathname === "/sign-in" && (
+    {location.pathname === "/sign-in" && (
         <Link className="header__link" to={"/sign-up"}>
           Регистрация
         </Link>
@@ -25,35 +25,16 @@ export default function Header({ name, dataUser, loggedIn }) {
       )}
       {loggedIn && (
         <>
-          <div className="header__email">
-            {dataUser}
-            <Link className="header__unlogin" to={"/sign-in"} onClick={name}>
+          <div className="header__email-container">
+            <p className="header__email">{userEmail}</p>
+            
+            <Link className="header__unlogin" to={"/sign-in"} onClick={onSignOut}>
               Выйти
             </Link>
-          </div>
-        </>
+          </div> 
+        </> 
       )} 
 
-
-        { /*{name === "signup" || name === "signin" ?
-        <Link to={name === "signup" ? "/sign-in" : "/sign-up"} className="header__link">
-          {name !== "signup" ? "Регистрация" : "Войти"}
-        </Link>
-        :
-        <>
-          <div className={"header__email-container" ? "header__email-container_opened" : ""}>
-            <p className="header__email">{dataUser}</p>
-            <Link to={"/sign-in"} className="header__link" onClick={name}>Выйти</Link>
-          </div> 
-        </>
-    } */}
       </header>
     )
 }
-
-
-
-
-
-//<header className={`header page__header ${count !== 0 ? "page__header_opened" : ""}`}></header>
-//<button className={`header__button ${count !== 0 ? "header__button_active" : ""}`} onClick={handleClick}></button>
