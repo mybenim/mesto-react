@@ -1,15 +1,29 @@
 import React from "react";
-import Form from "../Form/Form";
+import Form from "../Form/Form.jsx";
 
-export default function Input({ loggedIn, onRegister, name, type, placeholder, minLength, maxLength, isValid, value, onChange, error }) {
+export default function Input({ 
+        loggedIn, 
+        onRegister, 
+        name, 
+        type, 
+        placeholder, 
+        minLength, 
+        maxLength, 
+        isValid, 
+        value, 
+        onChange, 
+        error 
+    }) {
     
-
     return (
-        <Form name={loggedIn} onSubmit={onRegister} isValid={isValid}>
+        <Form 
+            name={loggedIn} 
+            onSubmit={onRegister} 
+        >
         <>
         {name === "password" || name === "email" ?
             <>
-                <Input
+            <Input
                 name={name}
                 type={type}
                 placeholder={placeholder}
@@ -19,13 +33,14 @@ export default function Input({ loggedIn, onRegister, name, type, placeholder, m
                 className={`login__input ${isValid === undefined || isValid ? "" : "login__input_invalid"}`}
                 value={value ? value : ""}
                 onChange={onChange}
+                isValid={isValid}
                 //disabled={isSend}
                 />
                 <span className={"login__error"}>{error}</span>
                 </>
             :
             <>
-                <Input
+            <Input
                 name={name}
                 type={type}
                 placeholder={placeholder}
@@ -35,6 +50,7 @@ export default function Input({ loggedIn, onRegister, name, type, placeholder, m
                 className={`login__input ${isValid === undefined || isValid ? "" : "login__input_invalid"}`}
                 value={value ? value : ""}
                 onChange={onChange}
+                isValid={isValid}
                 //disabled={isSend}
                 />
                 <span className={"login__error"}>{error}</span>

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import useFormValidation from "../../utils/useFormValidation";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     const input = useRef()
     const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation()
 
@@ -24,6 +24,7 @@ function handleSubmit(event) {
         isValid = {isValid}
         onClose = {resetClose}
         onSubmit = {handleSubmit}
+        titleButton={isLoading ? "Сохранение..." : "Сохранить"}
     >
     <input
         ref={input}

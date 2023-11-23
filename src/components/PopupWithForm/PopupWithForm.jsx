@@ -1,5 +1,4 @@
 
-
 export default function PopupWithForm({ name, title, titleButton, children, isOpen, onClose, onSubmit, isValid=true }) {
     return (
       <section className={ `popup popup_type_${name} ${isOpen && "popup_opened"}`} onClick={onClose}>
@@ -12,7 +11,7 @@ export default function PopupWithForm({ name, title, titleButton, children, isOp
               type="button"
               className="popup__close popup__close-profile"
               aria-label="close"
-              onClick={onClose} 
+              onClick={onClose}
             />
 
             <h2 className={`popup__title ${name}`}>{title}</h2>
@@ -28,7 +27,7 @@ export default function PopupWithForm({ name, title, titleButton, children, isOp
 
             <button
               type="submit"
-              className={`popup__safe ${isValid ? "" : "popup__safe_disabled"}`} 
+              className={`popup__safe ${isValid ? "" : "popup__safe_disabled"}`}
               //popup__safe_disabled
               //disabled="true"
             >

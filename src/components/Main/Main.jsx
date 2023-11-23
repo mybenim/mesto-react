@@ -3,7 +3,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
 import Header from "../Header/Header.jsx";
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards, onSignOut, userEmail, loggedIn }) {
+export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards, onSignOut, userEmail, loggedIn, isLoading }) {
     
   const currentUser = useContext(CurrentUserContext)
 

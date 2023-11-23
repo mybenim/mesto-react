@@ -27,6 +27,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [isImagePopup, setIsImagePopup] = useState(false);
   const [isResultPopupOpen, setIsResultPopupOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   // Стэйты currentUser
   const [currentUser, setCurrentUser] = useState({});
@@ -40,7 +41,7 @@ function App() {
   const localLoggedIn = JSON.parse(localStorage.getItem("loggedIn")) ?? false // "true" / "false"
   const [loggedIn, setLoggedIn] = useState(localLoggedIn);
   const [isSuccessful, setIsSuccessful] = useState(true);
-
+  
   // Состояния попапов
   const isOpen = isEditProfilePopupOpen || 
   isAddPlacePopupOpen || 
@@ -76,7 +77,7 @@ function App() {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userEmail, dataCards]) => {
             setCurrentUser(userEmail)
-            
+            setIsLoading(false)     
             setCards(dataCards)
         })
         .catch((error) => console.error(`Ошибка при загрузке начальных данных ${error}`))
@@ -98,7 +99,7 @@ function App() {
     } else {
         setLoggedIn(false)  
     }
-  }, [navigate])
+  }, [])
 
  function onSignOut() {
     localStorage.removeItem("jwt");
@@ -106,6 +107,7 @@ function App() {
   } 
   
   function handleUpdateUser(dataUser, reset) {
+      setIsLoading(true)
       api.setUserInfo(dataUser)
         .then(res => {         
           setCurrentUser(res)
@@ -113,9 +115,11 @@ function App() {
           reset()
         })
         .catch((error) => console.error(`Ошибка при редактировании профиля ${error}`))
+        .finally(() => setIsLoading(false))
    }
 
   function handleUpdateAvatar(dataAvatar, reset) {
+      setIsLoading(true)
       api.setUserAvatar(dataAvatar)
         .then(res => {
           setCurrentUser(res)
@@ -123,16 +127,19 @@ function App() {
           reset()
         })
         .catch((error) => console.error(`Ошибка при редактировании аватара ${error}`))
+        .finally(() => setIsLoading(false))
     }
 
   function handleAddPlaceSubmit(dataCard, reset) {
-        api.addNewCard(dataCard)
-        .then(res => {         
-          setCards([res, ...cards]); 
-          closeAllPopups()
-          reset()
-        })
-        .catch((error) => console.error(`Ошибка при создании карточки ${error}`))
+      setIsLoading(true)
+      api.addNewCard(dataCard)
+      .then(res => {         
+        setCards([res, ...cards]); 
+        closeAllPopups()
+        reset()
+      })
+      .catch((error) => console.error(`Ошибка при создании карточки ${error}`))
+      .finally(() => setIsLoading(false))
     }
 
   const handleLike = useCallback((card) => {
@@ -150,10 +157,11 @@ function App() {
           })
           .catch((error) => console.error(`Ошибка при установке лайка ${error}`))
         }
-  }, [currentUser._id]) 
+    }, [currentUser._id]) 
 
  function handleCardDeleteSubmit(event) {
       event.preventDefault()
+      setIsLoading(true)
       api.deleteCard(deleteCardId)
         .then(() => {
           setCards(cards.filter(card => {
@@ -162,6 +170,7 @@ function App() {
           closeAllPopups()
         })
         .catch((error) => console.error(`Ошибка при удалении карточки ${error}`))
+        .finally(() => setIsLoading(false))
     }  
   
   function handleEditProfileClick() {
@@ -195,11 +204,11 @@ function App() {
             window.scrollTo(0, 0) // Скролл вверх
             navigate("/")
       })
-       .catch((error) => {
+        .catch((error) => {
             setIsResultPopupOpen(true)
             setIsSuccessful(false)
             console.error(`Ошибка при авторизации ${error}`)
-        });
+        })
     }
 
     function handleRegister(password, email) {
@@ -214,8 +223,7 @@ function App() {
             setIsSuccessful(false)
             console.error(`Ошибка при регистрации ${error}`)
         })
-        .finally(() => setIsResultPopupOpen(true))
-        }
+    }
 
 return (
 <CurrentUserContext.Provider value={currentUser}>
@@ -236,6 +244,7 @@ return (
           cards={cards}
           loggedIn={loggedIn}
           userEmail={userEmail}
+          isLoading={isLoading}
           />
         } 
       /> 
@@ -248,7 +257,7 @@ return (
       <Route path="*" 
         element={ loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />} 
       />
-  </Routes> 
+  </Routes>
   
   <Footer />
     
@@ -256,24 +265,27 @@ return (
       onUpdateUser = {handleUpdateUser} 
       isOpen = {isEditProfilePopupOpen}
       onClose = {closeAllPopups}
+      isLoading={isLoading}
     />
 
     <AddPlacePopup
       onAddCard = {handleAddPlaceSubmit} 
       isOpen = {isAddPlacePopupOpen}
       onClose = {closeAllPopups}
+      isLoading={isLoading}
     />
 
     <EditAvatarPopup
       onUpdateAvatar = {handleUpdateAvatar}
       isOpen = {isEditAvatarPopupOpen}
-      onClose = {closeAllPopups} 
+      onClose = {closeAllPopups}
+      isLoading={isLoading} 
     />
 
      <PopupWithForm 
       name="delete"
       title="Вы уверены?"
-      titleButton="Да"
+      titleButton={isLoading ? "Удаление..." : "Да"}  
       isOpen = {isDeletePopupOpen}
       onClose = {closeAllPopups}
       onSubmit = {handleCardDeleteSubmit}

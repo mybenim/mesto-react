@@ -23,16 +23,16 @@ export default function useFormValidation() {
 
          setIsInputValid((oldIsInputValid) => {
             return { ...oldIsInputValid, [name] : valid }
-        })
+        }) 
 
-        setIsValid(form.checkValidity()) 
-    } 
+       setIsValid(form.checkValidity()) 
+    }
 
     function reset(data = {}) {
         setValues(data)
         setErrors({})
         setIsValid(false)
-        //setIsInputValid({})
+        setIsInputValid({})
     }
 
     const setValue = useCallback((name, value) => {
@@ -41,5 +41,13 @@ export default function useFormValidation() {
         })
     }, []) 
 
-    return { values, errors, isValid, isInputValid, handleChange, reset, setValue }
+    return { 
+        values, 
+        errors, 
+        isValid,   
+        isInputValid,
+        handleChange,
+        reset, 
+        setValue
+     }
 }

@@ -2,7 +2,6 @@ import useFormValidation from "../../utils/useFormValidation.js";
 import Form from "../Form/Form.jsx";
 import Header from "../Header/Header.jsx"
 
-
 export default function Register({ handleRegister }) {
     const { values, errors, isValid, handleChange } = useFormValidation();
 

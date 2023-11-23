@@ -1,25 +1,27 @@
 import { useContext, useEffect } from "react";
-import useFormValidation from "../../utils/useFormValidation";
-import PopupWithForm from "../PopupWithForm/PopupWithForm";
+import useFormValidation from "../../utils/useFormValidation.js";
+import PopupWithForm from "../PopupWithForm/PopupWithForm.jsx";
 import CurrentUserContext from "../../context/CurrentUserContext.js"
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     const currentUser = useContext(CurrentUserContext)
     const { values, errors, isValid, isInputValid, handleChange, reset, setValue } = useFormValidation()
 
     useEffect(() => {
-       setValue("fullname", currentUser.name)
-       setValue("job", currentUser.about)
-    }, [currentUser, setValue])
+    if (!isOpen) {
+        setValue("fullname", currentUser.name);
+        setValue("job", currentUser.about);
+    }
+    }, [isOpen, currentUser, setValue]);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        onUpdateUser({ fullname: values.fullname, job: values.job }, reset);
+    }
 
     function resetClose() {
         onClose()
         reset({ fullname: currentUser.name, job: currentUser.about })
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault()
-        onUpdateUser({ fullname: values.fullname, job: values.job }, reset)
     }
 
     return (
@@ -30,6 +32,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             onClose = {resetClose}
             isValid = {isValid}
             onSubmit = {handleSubmit}
+            titleButton={isLoading ? "Сохранение..." : "Сохранить"}
             >
             <input
                 type="text"

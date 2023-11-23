@@ -2,7 +2,7 @@ import useFormValidation from "../../utils/useFormValidation";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
 
-export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddCard, isLoading }) {
 
      const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation()
 
@@ -20,11 +20,11 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
     <PopupWithForm 
       name="add Card"
       title="Новое место"
-      titleButton="Создать"
       isOpen = {isOpen}
       isValid = {isValid}
       onClose = {resetClose}
       onSubmit = {handleSubmit}
+      titleButton={isLoading ? "Создание..." : "Создать"}
     >
       <input
           type="text"
